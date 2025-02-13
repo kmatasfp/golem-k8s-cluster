@@ -4,7 +4,7 @@ apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
   name: cilium
-  namespace: flux-system
+  namespace: kube-system
 spec:
   interval: 12h
   url: https://helm.cilium.io
@@ -24,7 +24,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: cilium
-        namespace: flux-system
+        namespace: kube-system
   targetNamespace: kube-system
   install:
     remediation:
