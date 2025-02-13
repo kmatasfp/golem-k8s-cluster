@@ -92,3 +92,16 @@ module "proxmox_csi_plugin" {
 
   proxmox = var.proxmox
 }
+
+module "fluxcd" {
+  depends_on = [module.talos]
+  source     = "./bootstrap/flux"
+
+  providers = {
+    flux = flux
+  }
+
+  github_org        = var.github_org
+  github_repository = var.github_repository
+  github_token      = var.github_token
+}

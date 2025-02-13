@@ -13,7 +13,10 @@ terraform {
       source  = "hashicorp/kubernetes"
       version = "2.35.1"
     }
-
+    flux = {
+      source  = "fluxcd/flux"
+      version = "1.4.0"
+    }
   }
 }
 
@@ -34,4 +37,22 @@ provider "kubernetes" {
   client_certificate     = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate)
   client_key             = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key)
   cluster_ca_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate)
+}
+
+provider "flux" {
+  kubernetes = {
+    host = module.talos.kube_config.kubernetes_client_configuration.host
+
+    client_certificate     = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate)
+    client_key             = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key)
+    cluster_ca_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate)
+  }
+
+  git = {
+    url = "https://github.com/${var.github_org}/${var.github_repository}.git"
+    http = {
+      username = "git" # This can be any string when using a personal access token
+      password = var.github_token
+    }
+  }
 }
