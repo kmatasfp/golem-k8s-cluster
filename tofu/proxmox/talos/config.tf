@@ -17,13 +17,51 @@ data "talos_machine_configuration" "this" {
   machine_type     = each.value.machine_type
   machine_secrets  = talos_machine_secrets.this.machine_secrets
   config_patches = each.value.machine_type == "controlplane" ? [
-    templatefile("${path.module}/machine-config/control-plane.yaml.tftpl", {
-      hostname       = each.key
-      node_name      = each.value.host_node
-      cluster_name   = var.cluster.proxmox_cluster
-      cilium_values  = var.cilium.values
-      cilium_install = var.cilium.install
-      cluster_vip    = var.cluster.endpoint
+    yamlencode({
+      machine = {
+        network = {
+          hostname = each.key
+          interfaces = [
+            {
+              interface = "eth0"
+              vip = {
+                ip = var.cluster.endpoint
+              }
+            }
+          ]
+        }
+        nodeLabels = {
+          "topology.kubernetes.io/region" = var.cluster.proxmox_cluster,
+          "topology.kubernetes.io/zone"   = each.value.host_node
+        }
+      }
+    }),
+    yamlencode({
+      cluster = {
+        allowSchedulingOnControlPlanes = true
+        network = {
+          cni = {
+            name = "none"
+          }
+        }
+        proxy = {
+          disabled = true
+        }
+        extraManifests = [
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_gatewayclasses.yaml",
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_gateways.yaml",
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_httproutes.yaml",
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_referencegrants.yaml",
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/standard/gateway.networking.k8s.io_grpcroutes.yaml",
+          "https://raw.githubusercontent.com/kubernetes-sigs/gateway-api/v1.2.0/config/crd/experimental/gateway.networking.k8s.io_tlsroutes.yaml"
+        ]
+        inlineManifests = [
+          {
+            name     = "cilium"
+            contents = data.helm_template.cilium.manifest
+          }
+        ]
+      }
     })
     ] : [
     templatefile("${path.module}/machine-config/worker.yaml.tftpl", {

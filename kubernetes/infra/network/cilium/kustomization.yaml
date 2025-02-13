@@ -6,3 +6,10 @@ resources:
   - announce.yaml
   - ip-pool.yaml
   - helmrelease.yaml
+
+configMapGenerator:
+  - name: cilium-helm-values
+    files:
+      - values.yaml=./values.yaml
+configurations:
+  - kustomizeconfig.yaml

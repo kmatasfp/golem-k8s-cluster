@@ -17,6 +17,10 @@ terraform {
       source  = "fluxcd/flux"
       version = "1.4.0"
     }
+    helm = {
+      source  = "hashicorp/helm"
+      version = "2.17.0"
+    }
   }
 }
 
@@ -55,4 +59,14 @@ provider "flux" {
       password = var.github_token
     }
   }
+}
+
+provider "helm" {
+  # kubernetes {
+  #   host = module.talos.kube_config.kubernetes_client_configuration.host
+
+  #   client_certificate     = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_certificate)
+  #   client_key             = base64decode(module.talos.kube_config.kubernetes_client_configuration.client_key)
+  #   cluster_ca_certificate = base64decode(module.talos.kube_config.kubernetes_client_configuration.ca_certificate)
+  # }
 }

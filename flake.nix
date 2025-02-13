@@ -38,6 +38,7 @@
             pkgs.kustomize
             pkgs.kubeconform
             pkgs.terraform-ls
+            pkgs.terraform
             pkgs.opentofu
             pkgs.cilium-cli
           ];

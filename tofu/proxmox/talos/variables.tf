@@ -42,7 +42,6 @@ variable "nodes" {
 variable "cilium" {
   description = "Cilium configuration"
   type = object({
-    values  = string
-    install = string
+    values = string
   })
 }
