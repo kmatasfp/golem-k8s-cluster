@@ -41,7 +41,7 @@ module "talos" {
     bootstrap_endpoint = "10.10.40.31"
     gateway            = "10.10.40.1"
     talos_version      = "v1.9.3"
-    proxmox_cluster    = "homelab"
+    proxmox_cluster    = "pve-cluster"
   }
 
   nodes = {

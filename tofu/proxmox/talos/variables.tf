@@ -59,9 +59,9 @@ variable "kubernetes_csi_token" {
 
 variable "proxmox" {
   type = object({
-    cluster_name = string
-    endpoint     = string
-    insecure     = bool
-    storage      = string
+    cluster_name     = string
+    csi_api_endpoint = string
+    insecure         = bool
+    storage          = string
   })
 }

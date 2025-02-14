@@ -12,13 +12,15 @@ locals {
         }
       ]
       config = {
-        clusters = {
-          url          = "${var.proxmox.endpoint}/api2/json"
-          insecure     = var.proxmox.insecure
-          token_id     = var.kubernetes_csi_token.id
-          token_secret = "${element(split("=", var.kubernetes_csi_token.value), length(split("=", var.kubernetes_csi_token.value)) - 1)}"
-          region       = var.proxmox.cluster_name
-        }
+        clusters = [
+          {
+            url          = "${var.proxmox.csi_api_endpoint}/api2/json"
+            insecure     = var.proxmox.insecure
+            token_id     = var.kubernetes_csi_token.id
+            token_secret = "${element(split("=", var.kubernetes_csi_token.value), length(split("=", var.kubernetes_csi_token.value)) - 1)}"
+            region       = var.proxmox.cluster_name
+          }
+        ]
       }
     }
   )

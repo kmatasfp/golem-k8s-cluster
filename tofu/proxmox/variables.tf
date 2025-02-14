@@ -1,13 +1,14 @@
 variable "proxmox" {
   type = object({
-    name            = string
-    cluster_name    = string
-    endpoint        = string
-    insecure        = bool
-    username        = string
-    api_token       = string
-    ssh_private_key = string
-    storage         = string
+    name             = string
+    cluster_name     = string
+    endpoint         = string
+    insecure         = bool
+    username         = string
+    csi_api_endpoint = string
+    api_token        = string
+    ssh_private_key  = string
+    storage          = string
   })
   sensitive = true
 }
