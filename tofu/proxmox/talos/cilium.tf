@@ -1,5 +1,36 @@
 locals {
   cilium_values = file(var.cilium.values)
+
+  cilium_l2_announcement_policy = yamlencode(
+    {
+      apiVersion = "cilium.io/v2alpha1"
+      kind       = "CiliumL2AnnouncementPolicy"
+      metadata = {
+        name = "external"
+      }
+      spec = {
+        loadBalancerIPs = true
+        externalIPs     = true
+      }
+    }
+  )
+
+  cilium_lb_ip_pool = yamlencode({
+    apiVersion = "cilium.io/v2alpha1"
+    kind       = "CiliumLoadBalancerIPPool"
+    metadata = {
+      name = "external"
+    }
+    spec = {
+      blocks = [
+        {
+          start = var.cilium.lb_ip_pool_start
+          stop  = var.cilium.lb_ip_pool_end
+        },
+      ]
+    }
+  })
+
 }
 
 data "helm_template" "cilium" {
@@ -7,7 +38,7 @@ data "helm_template" "cilium" {
   name         = "cilium"
   repository   = "https://helm.cilium.io"
   chart        = "cilium"
-  version      = "1.17.0"
+  version      = "1.17.1"
   kube_version = "1.32.1"
   values       = [local.cilium_values]
 }

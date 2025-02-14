@@ -7,6 +7,7 @@ variable "proxmox" {
     username        = string
     api_token       = string
     ssh_private_key = string
+    storage         = string
   })
   sensitive = true
 }

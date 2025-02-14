@@ -1,4 +1,18 @@
+module "proxmox_csi_plugin" {
+
+  source = "./bootstrap/proxmox-csi-plugin"
+
+  providers = {
+    proxmox = proxmox
+  }
+
+  proxmox = var.proxmox
+}
+
+
 module "talos" {
+  depends_on = [module.proxmox_csi_plugin]
+
   source = "./talos"
 
   providers = {
@@ -12,8 +26,14 @@ module "talos" {
   }
 
   cilium = {
-    values = "${path.module}/../../kubernetes/infra/network/cilium/values.yaml"
+    values           = "${path.module}/talos/inline-manifests/cilium/values.yaml"
+    lb_ip_pool_start = "10.10.40.220"
+    lb_ip_pool_end   = "10.10.40.255"
   }
+
+  proxmox = var.proxmox
+
+  kubernetes_csi_token = module.proxmox_csi_plugin.kubernetes_csi_token
 
   cluster = {
     name               = "golem-k8s-cluster"
@@ -33,7 +53,7 @@ module "talos" {
       vm_id         = 300
       cpu           = 8
       ram_dedicated = 8192
-      datastore_id  = "scratchZ1"
+      datastore_id  = var.proxmox.storage
       disk_size     = 256
       bridge        = "vmbr1"
       vlan_id       = 40
@@ -46,7 +66,7 @@ module "talos" {
       vm_id         = 301
       cpu           = 8
       ram_dedicated = 8192
-      datastore_id  = "scratchZ1"
+      datastore_id  = var.proxmox.storage
       disk_size     = 256
       bridge        = "vmbr1"
       vlan_id       = 40
@@ -59,7 +79,7 @@ module "talos" {
       vm_id         = 302
       cpu           = 8
       ram_dedicated = 4096
-      datastore_id  = "scratchZ1"
+      datastore_id  = var.proxmox.storage
       disk_size     = 256
       bridge        = "vmbr1"
       vlan_id       = 40
@@ -72,7 +92,7 @@ module "talos" {
       vm_id         = 310
       cpu           = 8
       ram_dedicated = 8192
-      datastore_id  = "scratchZ1"
+      datastore_id  = var.proxmox.storage
       disk_size     = 256
       bridge        = "vmbr1"
       vlan_id       = 40
@@ -80,17 +100,7 @@ module "talos" {
   }
 }
 
-module "proxmox_csi_plugin" {
-  depends_on = [module.talos]
-  source     = "./bootstrap/proxmox-csi-plugin"
 
-  providers = {
-    proxmox    = proxmox
-    kubernetes = kubernetes
-  }
-
-  proxmox = var.proxmox
-}
 
 module "fluxcd" {
   depends_on = [module.talos]

@@ -42,6 +42,26 @@ variable "nodes" {
 variable "cilium" {
   description = "Cilium configuration"
   type = object({
-    values = string
+    values           = string
+    lb_ip_pool_start = string
+    lb_ip_pool_end   = string
+  })
+}
+
+variable "kubernetes_csi_token" {
+  type = object(
+    {
+      id    = string
+      value = string
+    }
+  )
+}
+
+variable "proxmox" {
+  type = object({
+    cluster_name = string
+    endpoint     = string
+    insecure     = bool
+    storage      = string
   })
 }

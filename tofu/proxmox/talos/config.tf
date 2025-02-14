@@ -57,17 +57,31 @@ data "talos_machine_configuration" "this" {
         ]
         inlineManifests = [
           {
-            name     = "cilium"
-            contents = data.helm_template.cilium.manifest
+            name = "cilium"
+            contents = join("---\n", [
+              data.helm_template.cilium.manifest,
+              local.cilium_l2_announcement_policy,
+              local.cilium_lb_ip_pool
+            ])
+          },
+          {
+            name     = "proxmox-csi-plugin"
+            contents = data.helm_template.proxmox-csi.manifest
           }
         ]
       }
     })
     ] : [
-    templatefile("${path.module}/machine-config/worker.yaml.tftpl", {
-      hostname     = each.key
-      node_name    = each.value.host_node
-      cluster_name = var.cluster.proxmox_cluster
+    yamlencode({
+      machine = {
+        network = {
+          hostname = each.key
+        }
+        nodeLabels = {
+          "topology.kubernetes.io/region" = var.cluster.proxmox_cluster,
+          "topology.kubernetes.io/zone"   = each.value.host_node
+        }
+      }
     })
   ]
 }
