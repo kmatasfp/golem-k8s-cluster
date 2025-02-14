@@ -3,8 +3,11 @@ locals {
     {
       createNamespace = true
       storageClass = [{
-        name          = "proxmox-data-xfs"
-        storage       = var.proxmox.storage
+        name    = "proxmox-data-xfs"
+        storage = var.proxmox.storage
+        annotations = {
+          "storageclass.kubernetes.io/is-default-class" = "true"
+        }
         reclaimPolicy = "Delete"
         fstype        = "xfs"
         cache         = "writethrough"
