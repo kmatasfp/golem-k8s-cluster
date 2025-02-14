@@ -35,7 +35,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   }
 
   efi_disk {
-    datastore_id = "scratchZ1"
+    datastore_id = each.value.datastore_id
     file_format  = "raw"
     type         = "4m"
   }
