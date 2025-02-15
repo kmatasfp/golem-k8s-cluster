@@ -37,7 +37,7 @@ data "helm_template" "proxmox-csi" {
   repository   = "oci://ghcr.io/sergelogvinov/charts"
   chart        = "proxmox-csi-plugin"
   version      = "0.3.5"
-  kube_version = "1.32.1"
+  kube_version = "1.32.0"
 
   values = [local.proxmox_csi_helm_values]
 }

@@ -17,6 +17,7 @@ module "talos" {
 
   providers = {
     proxmox = proxmox
+    helm    = helm.template
   }
 
   image = {
@@ -100,7 +101,15 @@ module "talos" {
   }
 }
 
+module "cert-manager" {
+  depends_on = [module.talos]
 
+  source = "./bootstrap/cert-manager"
+
+  providers = {
+    helm = helm.release
+  }
+}
 
 module "fluxcd" {
   depends_on = [module.talos]
