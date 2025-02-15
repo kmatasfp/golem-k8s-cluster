@@ -27,7 +27,7 @@ module "talos" {
 
   cilium = {
     values           = "${path.module}/talos/inline-manifests/cilium/values.yaml"
-    lb_ip_pool_start = "10.10.40.220"
+    lb_ip_pool_start = "10.10.40.200"
     lb_ip_pool_end   = "10.10.40.255"
   }
 

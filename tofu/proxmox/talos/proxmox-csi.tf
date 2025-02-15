@@ -12,6 +12,7 @@ locals {
         fstype        = "xfs"
         cache         = "writethrough"
         ssd           = true
+        mountOptions  = ["noatime"]
         }
       ]
       config = {
