@@ -10,4 +10,9 @@ resource "helm_release" "cert-manager" {
     name  = "installCRDs"
     value = "true"
   }
+
+  set {
+    name  = "config.enableGatewayAPI"
+    value = "true"
+  }
 }
