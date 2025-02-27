@@ -3,7 +3,7 @@
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
-  name: golem-cluster
+  name: golem-dragonfly-cluster
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.27.1
   replicas: 3 # one per node
