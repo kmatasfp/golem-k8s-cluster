@@ -6,7 +6,7 @@ metadata:
   name: golem-cluster
 spec:
   instances: 3
-  imageName: ghcr.io/cloudnative-pg/postgresql:16.6-10
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.4
   bootstrap:
     initdb:
       database: golem_db
