@@ -1,0 +1,28 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/postgresql.cnpg.io/cluster_v1.json
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: golem-cluster
+spec:
+  instances: 3
+  imageName: ghcr.io/cloudnative-pg/postgresql:16.6-10
+  bootstrap:
+    initdb:
+      database: golem_db
+      owner: golem_user
+      secret:
+        name: golem_user-secret
+  primaryUpdateStrategy: unsupervised
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1024Mi
+  postgresql:
+    parameters:
+      shared_buffers: 128MB
+      timezone: "America/Vancouver"
+  storage:
+    size: 20Gi
+  monitoring:
+    enablePodMonitor: false
