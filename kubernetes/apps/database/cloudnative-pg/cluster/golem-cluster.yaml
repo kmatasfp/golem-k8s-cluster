@@ -12,7 +12,7 @@ spec:
       database: golem_db
       owner: golem_user
       secret:
-        name: golem_user-secret
+        name: golem-user-secret
   primaryUpdateStrategy: unsupervised
   resources:
     requests:
