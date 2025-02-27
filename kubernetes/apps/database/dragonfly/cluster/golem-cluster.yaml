@@ -3,7 +3,7 @@
 apiVersion: dragonflydb.io/v1alpha1
 kind: Dragonfly
 metadata:
-  name: dragonfly
+  name: golem-cluster
 spec:
   image: ghcr.io/dragonflydb/dragonfly:v1.27.1
   replicas: 3 # one per node
@@ -19,6 +19,5 @@ spec:
     - --cluster_mode=emulated
   resources:
     requests:
-      cpu: 1024m
-    limits:
-      memory: 2048Mi
+      cpu: 100m
+      memory: 1024Mi
