@@ -21,7 +21,7 @@ module "talos" {
   }
 
   image = {
-    version           = "v1.9.3"
+    version           = "v1.9.5"
     proxmox_datastore = "ISOs"
     system_extensions = ["amd-ucode", "qemu-guest-agent"]
   }
@@ -41,7 +41,7 @@ module "talos" {
     endpoint           = "10.10.40.30"
     bootstrap_endpoint = "10.10.40.31"
     gateway            = "10.10.40.1"
-    talos_version      = "v1.9.3"
+    talos_version      = "v1.9.5"
     proxmox_cluster    = "pve-cluster"
   }
 
@@ -89,7 +89,7 @@ module "talos" {
       host_node     = "pve-2"
       machine_type  = "worker"
       ip            = "10.10.40.40"
-      mac_address   = "BC:24:11:2E:08:00"
+      mac_address   = "BC:24:11:2E:08:03"
       vm_id         = 310
       cpu           = 8
       ram_dedicated = 8192

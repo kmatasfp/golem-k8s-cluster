@@ -3,16 +3,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cloudnative-pg
+  name: minio-golem-tenant
 spec:
   interval: 30m
   chart:
     spec:
-      chart: cloudnative-pg
-      version: 0.23.2
+      chart: tenant
+      version: 7.0.0
       sourceRef:
         kind: HelmRepository
-        name: cloudnative-pg
+        name: minio
         namespace: flux-system
   install:
     remediation:
@@ -23,6 +23,13 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    crds:
-      create: true
-    replicaCount: 2
+    tenant:
+      name: golem-tenant
+      pools:
+        volumesPerServer: 1
+        size: 32Gi
+      certificate:
+        requestAutoCert: false
+        externalCertSecret:
+          - name: golem-tenant-tls
+            type: cert-manager.io/v1

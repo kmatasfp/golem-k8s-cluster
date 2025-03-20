@@ -3,16 +3,16 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: cloudnative-pg
+  name: minio-operator
 spec:
   interval: 30m
   chart:
     spec:
-      chart: cloudnative-pg
-      version: 0.23.2
+      chart: minio-operator
+      version: 7.0.0
       sourceRef:
         kind: HelmRepository
-        name: cloudnative-pg
+        name: minio
         namespace: flux-system
   install:
     remediation:
@@ -23,6 +23,10 @@ spec:
       strategy: rollback
       retries: 3
   values:
-    crds:
-      create: true
-    replicaCount: 2
+    operator:
+      env:
+        - name: OPERATOR_STS_ENABLED
+          value: "on"
+        - name: OPERATOR_STS_AUTO_TLS_ENABLED
+          value: "off"
+      replicaCount: 2

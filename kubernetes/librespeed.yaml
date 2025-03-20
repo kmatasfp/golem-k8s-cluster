@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: librespeed
+  labels:
+    app: librespeed
+    service: librespeed
+spec:
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: librespeed
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librespeed-deployment
+  labels:
+    app: librespeed
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: librespeed
+  template:
+    metadata:
+      labels:
+        app: librespeed
+    spec:
+      containers:
+        - name: librespeed
+          image: ghcr.io/librespeed/speedtest
+          ports:
+            - containerPort: 8080

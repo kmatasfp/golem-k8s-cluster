@@ -38,7 +38,7 @@ data "helm_template" "cilium" {
   name         = "cilium"
   repository   = "https://helm.cilium.io"
   chart        = "cilium"
-  version      = "1.17.1"
+  version      = "1.17.2"
   kube_version = "1.32.0"
   api_versions = [
     "gateway.networking.k8s.io/v1/GatewayClass",

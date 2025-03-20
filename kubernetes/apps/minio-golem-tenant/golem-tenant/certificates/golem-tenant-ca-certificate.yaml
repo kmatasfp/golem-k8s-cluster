@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/cert-manager.io/certificate_v1.json
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: golem-tenant-ca-certificate
+  namespace: minio-golem-tenant
+spec:
+  isCA: true
+  commonName: golem-tenant-ca
+  secretName: golem-tenant-ca-tls
+  duration: 70128h # 8y
+  privateKey:
+    algorithm: ECDSA
+    size: 256
+  issuerRef:
+    name: selfsigned-root
+    kind: ClusterIssuer
+    group: cert-manager.io
+  secretTemplate:
+    annotations:
+      replicator.v1.mittwald.de/replication-allowed: "true" # permit replication
+      replicator.v1.mittwald.de/replication-allowed-namespaces: "minio-operator"
