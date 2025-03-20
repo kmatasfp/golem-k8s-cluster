@@ -19,5 +19,4 @@ spec:
     group: cert-manager.io
   secretTemplate:
     annotations:
-      replicator.v1.mittwald.de/replication-allowed: "true" # permit replication
-      replicator.v1.mittwald.de/replication-allowed-namespaces: "minio-operator"
+      replicator.v1.mittwald.de/replicate-to: "minio-operator"
