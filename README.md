@@ -1,6 +1,6 @@
 ### Purpose
 
-This repo can be used to provision Kubernetes cluster for Golem Cloud.
+This repo can be used to provision Kubernetes cluster for Golem.
 
 ### Usage
 1. Fork this repository
@@ -19,4 +19,4 @@ This repo can be used to provision Kubernetes cluster for Golem Cloud.
    ```
    terraform/tofu apply
    ```
-8. Deploy Golem Cloud using official Helm chart https://github.com/golemcloud/golem/tree/main/kube
+8. Deploy Golem using official Helm chart https://github.com/golemcloud/golem/tree/main/kube
