@@ -19,3 +19,4 @@ This repo can be used to provision Kubernetes cluster for Golem Cloud.
    ```
    terraform/tofu apply
    ```
+8. Deploy Golem Cloud using official Helm chart https://github.com/golemcloud/golem/tree/main/kube
